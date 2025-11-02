@@ -3,7 +3,11 @@
 <img src="./cidade-fundo.jpg" alt="Cidade Quântica — capa" width="100%">
 
 > Experiência web imersiva que narra a **evolução da computação** — da era clássica aos processadores modernos e à **computação quântica**.
-
+-------
+🔗 Projeto (GitHub Pages):
+👉 https://anderson0617.github.io/evolucao-quantum.ai
+💼 LinkedIn:
+👉 https://www.linkedin.com/in/anderson-olivera-dev
 ---
 
 ## 🧠 Resumo Rápido
