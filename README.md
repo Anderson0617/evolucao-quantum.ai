@@ -6,6 +6,7 @@
 -------
 🔗 Projeto (GitHub Pages):
 👉 https://anderson0617.github.io/evolucao-quantum.ai
+---------------------------
 💼 LinkedIn:
 👉 https://www.linkedin.com/in/anderson-olivera-dev
 ---
