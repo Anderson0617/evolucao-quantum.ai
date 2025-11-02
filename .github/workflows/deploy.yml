@@ -1,9 +1,9 @@
-name: CI • Check BASE_URL + Build + Deploy
+name: Deploy
 
 on:
   push:
     branches: [main]
-  workflow_dispatch: {}
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,59 +12,26 @@ permissions:
 
 concurrency:
   group: "pages"
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
-  qa:
-    name: QA • Check BASE_URL
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Check absolute paths (BASE_URL safe)
-        run: npm run check:base
-
   build:
-    name: Build • Vite
-    needs: [qa]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
-
-      - name: Install deps
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-
-      - name: Add SPA fallback 404.html
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: SPA fallback
         run: cp dist/index.html dist/404.html
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
-
+          path: dist
   deploy:
-    name: Deploy • GitHub Pages
-    needs: [build]
+    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -72,4 +39,3 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-

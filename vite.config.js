@@ -30,14 +30,11 @@ function warnAbsoluteAsset() {
   };
 }
 
-export default defineConfig(({ command }) => {
-  const isDev = command === "serve";
-  return {
-    base: isDev ? "/" : "/evolucao-quantum.ai/",
-    plugins: [react(), warnAbsoluteAsset()],
-    build: {
-      // Phaser fica em chunk separado; elevamos o limite para evitar warning.
-      chunkSizeWarningLimit: 1600,
-    },
-  };
-});
+export default defineConfig(() => ({
+  base: "/evolucao-quantum.ai/",
+  plugins: [react(), warnAbsoluteAsset()],
+  build: {
+    // Phaser fica em chunk separado; elevamos o limite para evitar warning.
+    chunkSizeWarningLimit: 1600,
+  },
+}));
