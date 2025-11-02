@@ -1,0 +1,812 @@
+/* Quantum module styles — cold cyan glow, layered grid, halo tracking, and didactic interactions. */
+
+/* === Quantum Section Wrapper ================================================= */
+.quantum-section {
+  position: relative;
+  inset: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(4rem, 10vw, 8rem) 0;
+  overflow: hidden;
+  color: #eaf3ff;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: radial-gradient(
+      120% 120% at 50% 20%,
+      rgba(24, 52, 94, 0.85),
+      rgba(5, 9, 20, 0.96)
+    )
+    #030610;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+}
+
+.quantum-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(0, 246, 255, 0.65);
+  opacity: 0.85;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+
+/* === Background Media Layer (video + overlays) =============================== */
+.quantum-media-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  background: #040a16;
+}
+
+.quantum-background-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+  filter: saturate(1.25) brightness(0.65);
+  opacity: 0;
+  transition: opacity 1.4s ease;
+}
+
+.quantum-section.is-video-ready .quantum-background-video {
+  opacity: 1;
+}
+
+.quantum-media-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y),
+    rgba(92, 220, 255, 0.35),
+    rgba(8, 18, 38, 0.05) 50%,
+    rgba(0, 6, 15, 0.85) 85%
+  );
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transform: translate3d(
+    calc((var(--pointer-x) - 50%) / 9),
+    calc((var(--pointer-y) - 50%) / 9),
+    0
+  );
+  transition:
+    opacity 0.6s ease,
+    transform 1.4s ease;
+}
+
+.quantum-section.is-active .quantum-media-overlay {
+  opacity: 0.78;
+}
+
+.quantum-media-overlay::before,
+.quantum-media-overlay::after {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  background-size: 36px 36px;
+  mix-blend-mode: screen;
+  opacity: 0.28;
+}
+
+.quantum-media-overlay::before {
+  background-image: linear-gradient(
+      0deg,
+      rgba(116, 214, 255, 0.14) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(116, 214, 255, 0.14) 1px,
+      transparent 1px
+    );
+  animation: quantum-grid-shift 12s linear infinite;
+}
+
+.quantum-media-overlay::after {
+  background-image: linear-gradient(
+    120deg,
+    rgba(120, 240, 255, 0.18) 0,
+    transparent 60%
+  );
+  animation: quantum-grid-pulse 9s ease-in-out infinite;
+}
+
+/* === Pulse Effect Layer ====================================================== */
+.quantum-pulse-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.quantum-pulse {
+  position: absolute;
+  left: var(--pulse-x);
+  top: var(--pulse-y);
+  width: clamp(12rem, 35vw, 20rem);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) scale(0.1);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(130, 230, 255, 0.55),
+    rgba(0, 181, 255, 0.15) 55%,
+    rgba(0, 120, 255, 0)
+  );
+  box-shadow: 0 0 2.5rem rgba(90, 210, 255, 0.45);
+  animation: quantum-pulse-wave 0.62s ease-out forwards;
+}
+
+/* === Foreground Content Container =========================================== */
+
+.quantum-section.is-city-mode .quantum-media-overlay {
+  opacity: 0.45;
+}
+
+.quantum-section.is-city-mode .quantum-media-overlay::before,
+.quantum-section.is-city-mode .quantum-media-overlay::after {
+  opacity: 0.6;
+}
+
+.quantum-content {
+  position: relative;
+  z-index: 2;
+  width: min(1080px, 92vw);
+  display: grid;
+  gap: clamp(2rem, 6vw, 3.75rem);
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.quantum-section.is-active .quantum-content {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.quantum-content.is-city-mode {
+  gap: clamp(1.5rem, 4vw, 3rem);
+}
+
+.quantum-city-overlay {
+  position: absolute;
+  inset: -1rem;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 2rem;
+  animation: quantumCityFadeIn 0.45s ease forwards;
+  pointer-events: none;
+}
+
+.quantum-city-launcher {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2.5rem);
+  bottom: clamp(1.2rem, 3vw, 2.8rem);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+}
+
+.quantum-city-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.85rem clamp(1.8rem, 4vw, 2.6rem);
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: #001322;
+  background: linear-gradient(90deg, #00f6ff, #0077ff);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    0 0.8rem 2.4rem rgba(0, 246, 255, 0.35),
+    inset 0 0 1.2rem rgba(255, 255, 255, 0.35);
+  transition: all 0.3s ease-in-out;
+}
+
+.quantum-city-button:hover {
+  box-shadow:
+    0 1.2rem 3.2rem rgba(0, 246, 255, 0.55),
+    inset 0 0 1.5rem rgba(255, 255, 255, 0.45);
+  transform: translateY(-2px) scale(1.01);
+}
+
+.quantum-city-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(0, 246, 255, 0.4),
+    0 1.2rem 3.2rem rgba(0, 246, 255, 0.55);
+}
+
+.quantum-city-wrapper {
+  position: relative;
+  z-index: 3;
+  margin-top: 0;
+  animation: quantumCityFadeIn 0.45s ease forwards;
+}
+
+.quantum-city-callout {
+  position: relative;
+  margin: 8px auto 2px;
+  width: min(820px, 95%);
+  display: grid;
+  gap: 0.55rem;
+  padding: clamp(1.5rem, 3.2vw, 2.2rem);
+  border-radius: 1.2rem;
+  background: linear-gradient(
+      150deg,
+      rgba(6, 24, 52, 0.86),
+      rgba(2, 10, 26, 0.78)
+    ),
+    rgba(8, 22, 46, 0.8);
+  border: 1px solid rgba(110, 216, 255, 0.28);
+  box-shadow:
+    0 1.1rem 2.6rem rgba(6, 32, 68, 0.45),
+    inset 0 0 1.4rem rgba(80, 200, 255, 0.16);
+  color: rgba(228, 247, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  z-index: 4;
+  text-align: center;
+}
+
+.quantum-city-callout__title {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.6vw, 1.6rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #7ceaff;
+}
+
+.quantum-city-callout__text {
+  margin: 0;
+  line-height: 1.6;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: rgba(214, 238, 255, 0.9);
+}
+
+@keyframes quantumCityFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* === Heading Cluster ======================================================== */
+.quantum-header {
+  display: grid;
+  width: 100%;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .quantum-header {
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+  }
+}
+
+.quantum-header-text {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  max-width: 48rem;
+}
+
+.quantum-title {
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f4fcff;
+  text-shadow: 0 0 1.6rem rgba(120, 224, 255, 0.4);
+  margin: 0;
+}
+
+.quantum-lead {
+  margin: 0;
+  font-size: clamp(1rem, 2.4vw, 1.35rem);
+  line-height: 1.6;
+  color: rgba(214, 236, 255, 0.85);
+}
+
+.quantum-gallery-window {
+  position: relative;
+  padding: clamp(0.8rem, 2.5vw, 1.2rem);
+  max-width: min(420px, 100%);
+  border-radius: 1.1rem;
+  background: rgba(6, 18, 34, 0.78);
+  border: 1px solid rgba(102, 224, 255, 0.26);
+  box-shadow:
+    0 0.65rem 1.9rem rgba(6, 18, 30, 0.48),
+    inset 0 0 1.1rem rgba(90, 210, 255, 0.18);
+  backdrop-filter: blur(11px);
+}
+
+@media (max-width: 959px) {
+  .quantum-gallery-window {
+    order: 3;
+    max-width: min(520px, 100%);
+    justify-self: center;
+  }
+}
+
+.quantum-gallery-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.9rem;
+  background: rgba(8, 14, 24, 0.9);
+  box-shadow:
+    inset 0 0 0.85rem rgba(120, 220, 255, 0.22),
+    0 0.4rem 1.2rem rgba(0, 0, 0, 0.45);
+}
+
+.quantum-gallery-image {
+  display: block;
+  width: 100%;
+  height: clamp(180px, 26vw, 320px);
+  object-fit: contain;
+  background: rgba(4, 10, 20, 0.92);
+  border-radius: 0.9rem;
+  opacity: 0;
+  transform: scale(0.96);
+  animation: quantum-gallery-fade 0.75s ease forwards;
+}
+
+.quantum-gallery-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: clamp(0.6rem, 1.5vw, 0.9rem);
+}
+
+.quantum-gallery-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: rgba(130, 230, 255, 0.32);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.quantum-gallery-dot.is-active {
+  background: rgba(150, 250, 255, 0.95);
+  transform: scale(1.25);
+  box-shadow: 0 0 0.7rem rgba(130, 230, 255, 0.6);
+}
+
+@keyframes quantum-gallery-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Grid Of Interactive Cards ============================================= */
+.quantum-grid {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+/* === Card Base Styling ====================================================== */
+.quantum-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: clamp(1.6rem, 3vw, 2.2rem);
+  background: rgba(8, 22, 40, 0.78);
+  border: 1px solid rgba(96, 216, 255, 0.2);
+  border-radius: 1.35rem;
+  -webkit-backdrop-filter: blur(14px); /* Safari support */
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0.65rem 2.8rem rgba(8, 35, 70, 0.6),
+    inset 0 0 0.85rem rgba(80, 160, 255, 0.08);
+  transition:
+    transform 0.6s ease,
+    border-color 0.4s ease,
+    box-shadow 0.6s ease;
+}
+
+.quantum-card:focus-visible {
+  outline: 2px solid rgba(140, 230, 255, 0.9);
+  outline-offset: 6px;
+}
+
+.quantum-card-title {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c6e8ff;
+}
+
+.quantum-card-text {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: rgba(202, 230, 255, 0.75);
+}
+
+.quantum-card-body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* === Card List Bullets ====================================================== */
+.quantum-card-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.35rem;
+  color: rgba(210, 236, 255, 0.8);
+}
+
+/* === Qubit Card: Hover Glow ================================================= */
+.qubit-card {
+  padding: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.qubit-card .quantum-card-body {
+  padding: clamp(1.4rem, 3vw, 2rem);
+}
+
+.qubit-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(120, 220, 255, 0.6);
+  opacity: 0;
+  transform: scale(0.96);
+  box-shadow: 0 0 2.4rem rgba(90, 208, 255, 0.45);
+  transition:
+    opacity 0.55s ease,
+    transform 0.55s ease;
+  pointer-events: none;
+}
+
+.qubit-card:focus-visible::after,
+.qubit-card:hover::after {
+  opacity: 1;
+  transform: scale(1);
+  animation: quantum-breathe 2.4s ease-in-out infinite;
+}
+
+.qubit-card .quantum-card-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.qubit-card .quantum-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.35) contrast(1.05);
+  transition: transform 0.9s ease;
+}
+
+.qubit-card:hover .quantum-card-media img,
+.qubit-card:focus-visible .quantum-card-media img {
+  transform: scale(1.06);
+}
+
+/* === Superposition Card ===================================================== */
+.superposition-card {
+  gap: 1.35rem;
+  text-align: left;
+}
+
+.superposition-trigger {
+  align-self: flex-start;
+  padding: 0.65rem 1.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(116, 214, 255, 0.35);
+  background: linear-gradient(
+      125deg,
+      rgba(40, 100, 200, 0.75),
+      rgba(18, 65, 140, 0.6)
+    )
+    rgba(20, 48, 96, 0.9);
+  color: #d8f1ff;
+  font-size: 0.9rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.45s ease,
+    border-color 0.45s ease;
+}
+
+.superposition-trigger:hover,
+.superposition-trigger:focus-visible {
+  transform: translate3d(0, -2px, 0);
+  border-color: rgba(140, 230, 255, 0.6);
+  box-shadow: 0 0.6rem 1.6rem rgba(66, 200, 255, 0.4);
+  outline: 2px solid rgba(148, 236, 255, 0.65);
+  outline-offset: 4px;
+}
+
+.superposition-trigger[aria-pressed="true"] {
+  border-color: rgba(158, 246, 255, 0.8);
+  box-shadow: 0 0.9rem 2.4rem rgba(120, 238, 255, 0.55);
+}
+
+.trigger-label {
+  display: block;
+}
+
+.superposition-visual {
+  position: relative;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(120, 220, 255, 0.18);
+  box-shadow: inset 0 0 1.8rem rgba(70, 150, 255, 0.12);
+  perspective: 1200px;
+}
+
+.superposition-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+  filter: saturate(1.2);
+  transform-origin: center;
+  backface-visibility: hidden;
+  transition:
+    transform 0.5s ease,
+    filter 0.5s ease,
+    box-shadow 0.55s ease;
+}
+
+.superposition-visual.is-active img {
+  animation: superposition-spin 1.2s linear;
+}
+
+.superposition-visual img:hover {
+  transform: scale(1.03);
+  filter: saturate(1.28) brightness(1.05);
+  box-shadow: 0 0 2.6rem rgba(96, 220, 255, 0.35);
+}
+
+.superposition-visual img:focus-visible {
+  transform: scale(1.03);
+  filter: saturate(1.28) brightness(1.05);
+  box-shadow: 0 0 2.6rem rgba(96, 220, 255, 0.35);
+  outline: 2px solid rgba(138, 236, 255, 0.75);
+  outline-offset: 4px;
+}
+
+/* === Educational Panel ====================================================== */
+.quantum-panel {
+  position: relative;
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(1.6rem, 3vw, 2.2rem);
+  background: rgba(8, 20, 38, 0.82);
+  border-radius: 1.35rem;
+  border: 1px solid rgba(96, 216, 255, 0.2);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow:
+    0 0.65rem 2.8rem rgba(8, 35, 70, 0.6),
+    inset 0 0 1rem rgba(80, 160, 255, 0.08);
+  transition:
+    transform 0.45s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.quantum-panel.is-expanded {
+  transform: translate3d(0, -2px, 0);
+  border-color: rgba(140, 230, 255, 0.55);
+  box-shadow:
+    0 0.8rem 3.2rem rgba(20, 70, 140, 0.45),
+    inset 0 0 1.4rem rgba(96, 216, 255, 0.12);
+}
+
+.panel-toggle {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: flex-start;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  font: inherit;
+}
+
+.panel-toggle:focus-visible {
+  outline: 2px solid rgba(148, 236, 255, 0.75);
+  outline-offset: 6px;
+}
+
+.panel-title {
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #9fe4ff;
+}
+
+.panel-hint {
+  font-size: 0.85rem;
+  color: rgba(210, 236, 255, 0.7);
+}
+
+.panel-content {
+  display: grid;
+  gap: 0.65rem;
+  max-height: 0;
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 0.45s ease,
+    max-height 0.45s ease,
+    transform 0.45s ease;
+  color: rgba(202, 230, 255, 0.78);
+}
+
+.quantum-panel.is-expanded .panel-content {
+  max-height: 220px;
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.quantum-audio {
+  display: none;
+}
+
+/* === Animations ============================================================ */
+@keyframes quantum-pulse-wave {
+  0% {
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes quantum-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 2.25rem rgba(100, 220, 255, 0.45);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 3.4rem rgba(150, 240, 255, 0.75);
+    opacity: 0.7;
+  }
+}
+
+@keyframes quantum-grid-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(36px, 36px, 0);
+  }
+}
+
+@keyframes quantum-grid-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes superposition-spin {
+  0% {
+    transform: rotateY(0deg);
+    filter: saturate(1.2);
+  }
+  25% {
+    transform: rotateY(1800deg) scale(1.02);
+    filter: saturate(1.32) brightness(1.08);
+  }
+  50% {
+    transform: rotateY(3600deg) scale(1.04);
+    filter: saturate(1.42) brightness(1.12);
+  }
+  75% {
+    transform: rotateY(5400deg) scale(1.02);
+    filter: saturate(1.32) brightness(1.08);
+  }
+  100% {
+    transform: rotateY(7200deg);
+    filter: saturate(1.2);
+  }
+}
+
+/* === Responsive & Reduced Motion =========================================== */
+@media (max-width: 768px) {
+  .quantum-section {
+    padding: clamp(3.5rem, 16vw, 5rem) 0;
+  }
+
+  .quantum-header {
+    text-align: left;
+  }
+
+  .quantum-city-launcher {
+    position: static;
+    align-items: stretch;
+  }
+
+  .quantum-city-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .quantum-city-wrapper {
+    margin-top: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quantum-background-video {
+    transition: opacity 0.4s ease;
+  }
+
+  .quantum-media-overlay,
+  .quantum-card,
+  .qubit-card .quantum-card-media img,
+  .superposition-visual img,
+  .superposition-trigger,
+  .quantum-panel,
+  .panel-content {
+    transition: none;
+    animation: none;
+  }
+
+  .quantum-content {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+
+
+

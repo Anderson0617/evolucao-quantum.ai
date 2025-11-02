@@ -1,0 +1,55 @@
+{
+  "": "https://raw.githubusercontent.com/mapeditor/tiled/master/util/json/schema/tileset.json",
+  "name": "city",
+  "tilewidth": 32,
+  "tileheight": 32,
+  "tilecount": 8,
+  "columns": 4,
+  "image": "tileset-city.png",
+  "imagewidth": 128,
+  "imageheight": 64,
+  "type": "tileset",
+  "version": "1.10",
+  "tiles": [
+    {
+      "id": 1,
+      "properties": [
+        {
+          "name": "surface",
+          "type": "string",
+          "value": "building"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "properties": [
+        {
+          "name": "surface",
+          "type": "string",
+          "value": "sidewalk"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "properties": [
+        {
+          "name": "surface",
+          "type": "string",
+          "value": "park"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "properties": [
+        {
+          "name": "surface",
+          "type": "string",
+          "value": "tree"
+        }
+      ]
+    }
+  ]
+}

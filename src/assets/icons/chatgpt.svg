@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="chatgptGradient" cx="32" cy="32" r="30" gradientUnits="userSpaceOnUse">
+      <stop offset="0.1" stop-color="#1dd3a7" />
+      <stop offset="0.5" stop-color="#10a37f" />
+      <stop offset="1" stop-color="#0c6a57" />
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#chatgptGradient)" />
+  <path
+    d="M32 14.5c-4.2-7.3-13.8-9.8-21-5.6-6.8 3.9-9.6 12.2-6.6 19.4l-2.1 1.2c-6.7 3.9-9 12.6-5.2 19.4 3.4 6 10.5 8.9 17 7l0.8 2.3c2.3 7.6 10.2 11.8 17.6 9.5 6.8-2.1 11.1-8.8 9.9-15.7H45c5.8 0 11-4 12.3-9.8 1.6-7.2-3-14.3-10.1-15.7l0.8-2.3c2.7-8.1-1.8-16.9-10-19.6-7-2.3-14.6 0.7-18.5 7l10.5 18.2"
+    fill="none"
+    stroke="#ffffff"
+    stroke-width="3.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

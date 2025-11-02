@@ -1,0 +1,493 @@
+/* Classic module styles — warm vintage glow, tactile switch feedback, and panel indicators. */
+
+/* === Section shell ========================================================= */
+.classic-section {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(4rem, 8vw, 7rem) 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(
+      120% 120% at 50% 0%,
+      rgba(58, 32, 14, 0.88),
+      rgba(18, 10, 6, 0.96)
+    )
+    #150b07;
+  color: #ffe8d0;
+}
+
+.classic-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: rgba(0, 246, 255, 0.65);
+  opacity: 0.7;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 2;
+}
+
+.classic-section.bit-on {
+  background: radial-gradient(
+      130% 130% at 50% 0%,
+      rgba(88, 46, 18, 0.94),
+      rgba(18, 10, 6, 0.96)
+    )
+    #150b07;
+}
+
+/* === Background media ====================================================== */
+.classic-media-layer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.classic-background-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(1.15) brightness(0.6);
+  opacity: 0;
+  transition: opacity 1.25s ease;
+}
+
+.classic-section.is-video-ready .classic-background-video {
+  opacity: 1;
+}
+
+.classic-media-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      rgba(255, 200, 120, 0.28),
+      transparent 60%
+    ),
+    linear-gradient(120deg, rgba(70, 38, 18, 0.55), rgba(15, 8, 4, 0.9)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Crect width='160' height='160' fill='rgba(255,255,255,0)'/%3E%3Ccircle cx='20' cy='45' r='1' fill='rgba(255,235,200,0.08)'/%3E%3Ccircle cx='120' cy='90' r='1' fill='rgba(255,235,200,0.06)'/%3E%3Ccircle cx='60' cy='130' r='1' fill='rgba(255,235,200,0.05)'/%3E%3Ccircle cx='150' cy='10' r='1' fill='rgba(255,235,200,0.04)'/%3E%3C/svg%3E");
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  transition: opacity 0.6s ease;
+}
+
+.classic-section.is-active .classic-media-overlay {
+  opacity: 0.75;
+}
+
+.classic-section.bit-on .classic-media-overlay {
+  opacity: 0.85;
+}
+
+/* === Foreground content ==================================================== */
+.classic-content {
+  position: relative;
+  z-index: 2;
+  width: min(1080px, 92vw);
+  display: grid;
+  gap: clamp(2rem, 6vw, 3.5rem);
+  opacity: 0;
+  transform: translate3d(0, 32px, 0);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.classic-section.is-active .classic-content {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.classic-header {
+  display: grid;
+  width: 100%;
+  gap: clamp(1rem, 3vw, 2rem);
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .classic-header {
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  }
+}
+
+.classic-header-text {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.2rem);
+  max-width: 48rem;
+}
+
+.classic-title {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff3da;
+  text-shadow: 0 0 1.8rem rgba(255, 180, 88, 0.45);
+}
+
+.classic-lead {
+  margin: 0;
+  font-size: clamp(1rem, 2.3vw, 1.35rem);
+  line-height: 1.6;
+  color: rgba(255, 228, 198, 0.82);
+}
+
+.classic-bit-readout {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: #ffd7a0;
+}
+
+.classic-gallery-window {
+  position: relative;
+  padding: clamp(0.8rem, 2.6vw, 1.3rem);
+  max-width: min(420px, 100%);
+  border-radius: 1.15rem;
+  background: rgba(34, 18, 8, 0.78);
+  border: 1px solid rgba(255, 190, 112, 0.22);
+  box-shadow:
+    0 0.6rem 1.8rem rgba(12, 4, 2, 0.35),
+    inset 0 0 1.05rem rgba(255, 180, 88, 0.18);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+
+@media (max-width: 959px) {
+  .classic-gallery-window {
+    order: 3;
+    max-width: min(520px, 100%);
+    justify-self: center;
+  }
+}
+
+.classic-gallery-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 0.95rem;
+  background: rgba(20, 10, 4, 0.9);
+  box-shadow:
+    inset 0 0 0.8rem rgba(255, 160, 72, 0.14),
+    0 0.4rem 1.2rem rgba(0, 0, 0, 0.45);
+}
+
+.classic-gallery-image {
+  display: block;
+  width: 100%;
+  height: clamp(200px, 28vw, 340px);
+  object-fit: contain;
+  background: rgba(12, 6, 3, 0.92);
+  border-radius: 0.95rem;
+  opacity: 0;
+  transform: scale(0.96);
+  animation: classic-gallery-fade 0.75s ease forwards;
+}
+
+.classic-gallery-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: clamp(0.6rem, 1.5vw, 0.95rem);
+}
+
+.classic-gallery-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: rgba(255, 210, 150, 0.32);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.classic-gallery-dot.is-active {
+  background: rgba(255, 220, 170, 0.92);
+  transform: scale(1.25);
+  box-shadow: 0 0 0.65rem rgba(255, 210, 150, 0.6);
+}
+
+@keyframes classic-gallery-fade {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === Grid layout ========================================================== */
+.classic-grid {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.6rem);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.classic-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: clamp(1.6rem, 3vw, 2.3rem);
+  background: rgba(38, 20, 10, 0.78);
+  border: 1px solid rgba(255, 176, 90, 0.22);
+  border-radius: 1.4rem;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow:
+    0 0.65rem 2.8rem rgba(26, 12, 6, 0.65),
+    inset 0 0 1rem rgba(255, 176, 90, 0.1);
+  transition:
+    transform 0.4s ease,
+    border-color 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.classic-card:focus-visible {
+  outline: 2px solid rgba(255, 210, 150, 0.85);
+  outline-offset: 6px;
+}
+
+.classic-card-title {
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw, 1.45rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffe0bd;
+}
+
+.classic-card-text {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: rgba(255, 222, 196, 0.78);
+}
+
+.classic-card-body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+/* === Switch card ========================================================== */
+.switch-card {
+  gap: 1.4rem;
+}
+
+.switch-toggle {
+  align-self: flex-start;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(200px, 40vw, 260px);
+  height: clamp(3.2rem, 10vw, 3.8rem);
+  --switch-height: clamp(3.2rem, 10vw, 3.8rem);
+  --switch-gap: clamp(0.45rem, 1.5vw, 0.75rem);
+  --handle-size: calc(var(--switch-height) - var(--switch-gap) * 2);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 190, 110, 0.4);
+  background: linear-gradient(
+      140deg,
+      rgba(90, 50, 22, 0.85),
+      rgba(48, 20, 10, 0.85)
+    )
+    rgba(30, 12, 6, 0.95);
+  color: #ffe8d0;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.4s ease;
+}
+
+.switch-toggle:hover,
+.switch-toggle:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255, 200, 135, 0.7);
+  box-shadow: 0 0.65rem 1.8rem rgba(255, 200, 135, 0.42);
+  outline: none;
+}
+
+.switch-toggle[aria-pressed="true"] {
+  border-color: rgba(255, 220, 150, 0.9);
+  box-shadow: 0 0.75rem 2.6rem rgba(255, 210, 140, 0.5);
+}
+
+.switch-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.05rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.switch-handle {
+  position: absolute;
+  top: 50%;
+  left: calc(
+    var(--switch-gap) + var(--handle-size) / 2 +
+      var(--bit-state, 0) * (100% - (var(--switch-gap) * 2) - var(--handle-size))
+  );
+  transform: translate(-50%, -50%);
+  width: var(--handle-size);
+  height: var(--handle-size);
+  border-radius: 999px;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 210, 140, 0.9),
+    rgba(255, 170, 80, 0.65)
+  );
+  box-shadow:
+    inset 0 -0.35rem 0.8rem rgba(140, 70, 20, 0.45),
+    0 0.6rem 1.8rem rgba(255, 190, 110, 0.45);
+  transition:
+    left 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.switch-toggle[aria-pressed="true"] .switch-handle {
+  box-shadow:
+    inset 0 -0.45rem 0.85rem rgba(140, 70, 20, 0.55),
+    0 0.75rem 2rem rgba(255, 210, 150, 0.55);
+}
+
+.switch-annotation {
+  display: grid;
+  gap: 1rem;
+}
+
+.valve-visual {
+  width: 100%;
+  border-radius: 1.2rem;
+  filter: saturate(0.9) brightness(0.55);
+  transition:
+    filter 0.45s ease,
+    box-shadow 0.45s ease;
+}
+
+.valve-visual.valve-on {
+  filter: saturate(1.2) brightness(1.05);
+  box-shadow: 0 0 2.8rem rgba(255, 180, 80, 0.6);
+}
+
+/* === Panel interactions ==================================================== */
+.panel-card {
+  gap: 1.35rem;
+}
+
+.panel-visual {
+  position: relative;
+  border-radius: 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(255, 170, 82, 0.22);
+  box-shadow: inset 0 0 1.2rem rgba(255, 160, 72, 0.22);
+}
+
+.panel-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: saturate(1.1);
+}
+
+.panel-indicators {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+      circle at 30% 40%,
+      rgba(255, 200, 140, 0),
+      rgba(255, 200, 140, 0.2) 40%,
+      rgba(80, 30, 10, 0.8)
+    ),
+    radial-gradient(
+      circle at 70% 60%,
+      rgba(255, 180, 100, 0),
+      rgba(255, 180, 100, 0.2) 35%,
+      rgba(70, 25, 8, 0.8)
+    );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.panel-indicators.is-active {
+  opacity: 1;
+  animation: panel-indicator-fade 1.6s ease-in-out infinite;
+}
+
+.classic-section.panel-active .classic-media-overlay {
+  opacity: 0.82;
+}
+
+/* === Typewriter visual ===================================================== */
+.typewriter-visual {
+  width: 100%;
+  border-radius: 1.1rem;
+  filter: saturate(1) contrast(1.05);
+  box-shadow: 0 0.65rem 2.4rem rgba(30, 14, 6, 0.5);
+}
+
+.classic-audio {
+  display: none;
+}
+
+/* === Animations ============================================================ */
+@keyframes panel-indicator-fade {
+  0%,
+  100% {
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* === Responsive adjustments =============================================== */
+@media (max-width: 768px) {
+  .classic-section {
+    padding: clamp(3.5rem, 16vw, 5rem) 0;
+  }
+
+  .classic-header {
+    text-align: left;
+  }
+
+  .switch-toggle {
+    width: clamp(180px, 60vw, 240px);
+  }
+
+  .switch-handle {
+    width: clamp(80px, 30vw, 102px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .classic-background-video,
+  .classic-media-overlay,
+  .classic-content,
+  .switch-toggle,
+  .switch-handle,
+  .valve-visual,
+  .panel-indicators {
+    transition: none;
+    animation: none;
+  }
+}

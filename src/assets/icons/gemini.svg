@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <radialGradient id="geminiGradientA" cx="18" cy="20" r="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0.05" stop-color="#8ab4ff" />
+      <stop offset="0.35" stop-color="#4285f4" />
+      <stop offset="0.65" stop-color="#34a853" />
+      <stop offset="1" stop-color="#0d6efd" />
+    </radialGradient>
+    <radialGradient id="geminiGradientB" cx="46" cy="44" r="26" gradientUnits="userSpaceOnUse">
+      <stop offset="0.1" stop-color="#a0c8ff" />
+      <stop offset="0.4" stop-color="#34a853" />
+      <stop offset="0.7" stop-color="#fbbc04" />
+      <stop offset="1" stop-color="#ea4335" />
+    </radialGradient>
+  </defs>
+  <path
+    d="M20.5 10.5C29 4.4 41 7.4 47.1 15.8c3.8 5.3 4.5 12.2 1.8 18.2-3.3 7.6-11.3 12-19.6 10.9-4.5-.6-8.6 2.6-9.2 7.1-.4 3.5 1.4 6.8 4.5 8.4"
+    fill="none"
+    stroke="url(#geminiGradientA)"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M43.5 53.5C35 59.6 23 56.6 16.9 48.2c-3.8-5.3-4.5-12.2-1.8-18.2 3.3-7.6 11.3-12 19.6-10.9 4.5.6 8.6-2.6 9.2-7.1.4-3.5-1.4-6.8-4.5-8.4"
+    fill="none"
+    stroke="url(#geminiGradientB)"
+    stroke-width="9"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>
