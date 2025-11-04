@@ -9,6 +9,9 @@
 ---------------------------
 💼 LinkedIn:
 👉 https://www.linkedin.com/in/anderson-olivera-dev
+--------------------------
+🧩 **Portfólio:** [https://anderson0617.github.io/-meu-portfolio/](https://anderson0617.github.io/-meu-portfolio/)
+
 ---
 
 ## 🧠 Resumo Rápido
